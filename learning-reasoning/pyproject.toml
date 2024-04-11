@@ -1,0 +1,23 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "action-learning-reasoning"
+version = "0.1.0"
+readme = "README.md"
+authors = [
+    { name = "Giovanni Vigna", email = "vigna@ucsb.edu" },
+]
+requires-python = ">=3.8"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Operating System :: OS Independent",
+]
+dependencies = []
+
+[project.urls]
+Homepage = "https://github.com/action-ai-institute/ai-stack"
+Issues = "https://github.com/action-ai-institute/ai-stack/issues"
+
+[tool.hatch.envs.default]
