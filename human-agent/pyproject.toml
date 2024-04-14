@@ -5,6 +5,7 @@ build-backend = "hatchling.build"
 [project]
 name = "action-human-agent"
 version = "0.1.0"
+license = "Apache-2.0"
 readme = "README.md"
 authors = [
     { name = "Giovanni Vigna", email = "vigna@ucsb.edu" },
