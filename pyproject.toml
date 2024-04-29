@@ -3,12 +3,13 @@ requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [project]
-name = "action-learning-reasoning"
+name = "action"
 version = "0.1.0"
 license = "Apache-2.0"
 readme = "README.md"
 authors = [
     { name = "Giovanni Vigna", email = "vigna@ucsb.edu" },
+    { name = "Gabriel Pizarro", email = "gpizarro@ucsb.edu" },
 ]
 requires-python = ">=3.8"
 classifiers = [
