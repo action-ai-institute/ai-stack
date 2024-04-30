@@ -26,6 +26,9 @@ class Comm:
     def __exit__(self, exc_type, exc_value, traceback):
         self.disconnect()
 
+        # Let the exception propagate
+        return False
+
     def _ensure_connected(self):
         if not self._connection:
             raise CommError(
