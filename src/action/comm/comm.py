@@ -19,8 +19,9 @@ class Comm:
         self._producers: dict[CommTopic, Producer] = list()
         self._listen_task: Optional[Task] = None
 
-    def __enter__(self):
+    def __enter__(self) -> "Comm":
         self.connect()
+        return self
 
     def __exit__(self, exc_type, exc_value, traceback):
         self.disconnect()
