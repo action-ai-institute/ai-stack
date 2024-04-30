@@ -1,0 +1,2 @@
+class CommError(Exception):
+    pass

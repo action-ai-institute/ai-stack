@@ -1,17 +1,11 @@
-from enum import Enum
-from typing import Optional
-from kombu import Connection, Exchange, Queue, Consumer, Producer
 import asyncio
 from asyncio import Task
+from typing import Optional
 
+from kombu import Connection, Consumer, Exchange, Producer, Queue
 
-class CommError(Exception):
-    pass
-
-
-class CommTopic(str, Enum):
-    POTENTIAL_ATTACK = "potential_attack"
-    LOG = "log"
+from .comm_error import CommError
+from .comm_topic import CommTopic
 
 
 class Comm:
@@ -47,7 +41,7 @@ class Comm:
             async def consume_events():
                 while True:
                     self._connection.drain_events()
-            
+
             self._listen_task = asyncio.create_task(consume_events())
 
     def disconnect(self):
@@ -61,7 +55,7 @@ class Comm:
             self._consumers.clear()
             self._producers.clear()
 
-    def block_forever(self):
+    def block_indefinitely(self):
         asyncio.wait_for(self._listen_task, None)
 
     def _get_exchange(self, topic: CommTopic) -> Exchange:
@@ -71,7 +65,7 @@ class Comm:
             exchange.declare(self._channel)
             self._exchanges[topic] = exchange
         return exchange
-    
+
     def _get_producer(self, topic: CommTopic) -> Producer:
         producer = self._producers.get(topic)
         if not producer:
