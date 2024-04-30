@@ -5,7 +5,6 @@ from typing import Optional
 from kombu import Connection, Consumer, Exchange, Producer, Queue
 
 from .comm_error import CommError
-from .comm_topic import CommTopic
 
 
 class Comm:
@@ -14,9 +13,9 @@ class Comm:
 
         self._connection: Optional[Connection] = None
         self._channel: Optional[any] = None
-        self._exchanges: dict[CommTopic, Exchange] = dict()
+        self._exchanges: dict[str, Exchange] = dict()
         self._consumers: list[Consumer] = list()
-        self._producers: dict[CommTopic, Producer] = list()
+        self._producers: dict[str, Producer] = list()
         self._listen_task: Optional[Task] = None
 
     def __enter__(self):
@@ -58,7 +57,7 @@ class Comm:
     def block_indefinitely(self):
         asyncio.wait_for(self._listen_task, None)
 
-    def _get_exchange(self, topic: CommTopic) -> Exchange:
+    def _get_exchange(self, topic: str) -> Exchange:
         exchange = self._exchanges.get(topic)
         if not exchange:
             exchange = Exchange(topic, type="topic", durable=True)
@@ -66,7 +65,7 @@ class Comm:
             self._exchanges[topic] = exchange
         return exchange
 
-    def _get_producer(self, topic: CommTopic) -> Producer:
+    def _get_producer(self, topic: str) -> Producer:
         producer = self._producers.get(topic)
         if not producer:
             exchange = self._get_exchange(topic)
@@ -74,17 +73,17 @@ class Comm:
             self._producers[topic] = producer
         return producer
 
-    def subscribe(self, topic: CommTopic, routing_key: str, callback: callable):
+    def subscribe(self, topic: str, callback: callable):
         self._ensure_connected()
 
         exchange = self._get_exchange(topic)
-        queue = Queue(exchange=exchange, routing_key=routing_key, durable=True)
+        queue = Queue(exchange=exchange, durable=True)
         queue.declare(self._channel)
         consumer = Consumer(self._channel, queues=[queue], callbacks=[callback])
         self._consumers.append(consumer)
 
-    def publish(self, topic: CommTopic, routing_key: str, data: any):
+    def publish(self, topic: str, data: any):
         self._ensure_connected()
 
         producer = self._get_producer(topic)
-        producer.publish(data, routing_key=routing_key)
+        producer.publish(data)
