@@ -31,4 +31,6 @@ comm.publish(
     topic="auditd",                 
     data="/etc/passwd changed :O",
 )
+# Do your thing...
+comm.disconnect()
 ```
