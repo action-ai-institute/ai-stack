@@ -22,13 +22,13 @@ Example usage:
 ```python
 from action.comm import Comm
 
-comm = Comm("amqp://localhost:5672")       # Use local or global instance url
-comm.subscribe(
-    topic="auditd",                        # One topic (category) per agent
-    callback=lambda msg: print(msg.body),  # Data can be str, JSON, or pickle
-)
-comm.publish(
-    topic="auditd",                 
-    data="/etc/passwd changed :O",
-)
+# Use local or global instance url
+comm = Comm("amqp://localhost:5672")
+
+comm.subscribe("agent_a", lambda msg: print(msg))
+comm.subscribe("agent_b", lambda msg: print(msg["foo"]))
+comm.publish("agent_a", "bar")
+comm.publish("agent_b", {"foo": "bar"})
+
+comm.disconnect()
 ```

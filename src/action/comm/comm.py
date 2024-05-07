@@ -35,5 +35,5 @@ class Comm:
     def publish(self, topic: str, data: any):
         self._check_connected()
         exchange = Exchange(name=topic, type="topic")
-        producer = self._connection.Producer(exchange=exchange)
+        producer = self._connection.Producer(exchange=exchange, serializer='json')
         producer.publish(data)
