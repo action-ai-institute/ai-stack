@@ -7,21 +7,12 @@ from .comm_error import CommError
 
 
 class Comm:
-    _consumers: list[CommConsumer] = list()
-
     def __init__(self, url: str):
-        self._connection = Connection(url)
+        self._consumers: list[CommConsumer] = list()
+        self._connection: Connection = Connection(url)
         self._connection.connect()
 
-        self._connection: Optional[Connection] = None
-        self._channel: Optional[any] = None
-        self._exchanges: dict[CommTopic, Exchange] = dict()
-        self._consumers: list[Consumer] = list()
-        self._producers: dict[CommTopic, Producer] = list()
-        self._listen_task: Optional[Task] = None
-
     def __enter__(self) -> "Comm":
-        self.connect()
         return self
 
     def __exit__(self, exc_type, exc_value, traceback):
@@ -29,25 +20,6 @@ class Comm:
 
         # Let the exception propagate
         return False
-
-    def _ensure_connected(self):
-        if not self._connection:
-            raise CommError(
-                "Never connected to the message broker. Did you forgot to `connect`?"
-            )
-        if not self._connection.connected:
-            raise CommError("Connection to the message broker was lost.")
-
-    def connect(self):
-        if not self._connection or not self._connection.connected:
-            self._connection = Connection(self._url)
-            self._channel = self._connection.channel()
-
-            async def consume_events():
-                while True:
-                    self._connection.drain_events()
-
-            self._listen_task = asyncio.create_task(consume_events())
 
     def __del__(self):
         self.disconnect()
@@ -71,5 +43,5 @@ class Comm:
     def publish(self, topic: str, data: any):
         self._check_connected()
         exchange = Exchange(name=topic, type="topic")
-        producer = self._connection.Producer(exchange=exchange, serializer='json')
+        producer = self._connection.Producer(exchange=exchange, serializer="json")
         producer.publish(data)
