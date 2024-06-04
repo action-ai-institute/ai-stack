@@ -45,3 +45,16 @@ class Comm:
         exchange = Exchange(name=topic, type="topic")
         producer = self._connection.Producer(exchange=exchange, serializer="json")
         producer.publish(data)
+
+
+def workload_comm():
+    return Comm("amqp://localhost:5672")
+
+
+def local_comm():
+    return Comm("amqp://10.0.8.88:5672")
+
+
+# TODO
+# def global_comm():
+#     return Comm("amqp://10.0.8.88:5672")
