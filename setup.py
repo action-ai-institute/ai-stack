@@ -11,18 +11,19 @@ setup(
     description="",
     long_description=open("README.md").read(),
     long_description_content_type="text/markdown",
-    python_requires=">=3.8",
+    python_requires=">=3.6",
     classifiers=[
         "Programming Language :: Python :: 3",
         "Operating System :: OS Independent",
     ],
     install_requires=[
-        "kombu ~= 5.3",
+        "kombu ~= 5.0",
     ],
     url="https://github.com/action-ai-institute/ai-stack",
     project_urls={
         "Homepage": "https://github.com/action-ai-institute/ai-stack",
         "Issues": "https://github.com/action-ai-institute/ai-stack/issues",
     },
-    packages=find_packages(),
+    packages=find_packages(where='src'),
+    package_dir={'': 'src'},
 )

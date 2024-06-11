@@ -1,2 +1,2 @@
-from .comm import Comm, workload_comm, local_comm
+from .comm import Comm, local_comm, global_comm
 from .comm_error import CommError

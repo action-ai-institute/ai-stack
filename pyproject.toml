@@ -11,12 +11,12 @@ authors = [
     { name = "Giovanni Vigna", email = "vigna@ucsb.edu" },
     { name = "Gabriel Pizarro", email = "gpizarro@ucsb.edu" },
 ]
-requires-python = ">=3.8"
+requires-python = ">=3.6"
 classifiers = [
     "Programming Language :: Python :: 3",
     "Operating System :: OS Independent",
 ]
-dependencies = ["kombu ~= 5.3"]
+dependencies = ["kombu ~= 5.0"]
 
 [project.urls]
 Homepage = "https://github.com/action-ai-institute/ai-stack"

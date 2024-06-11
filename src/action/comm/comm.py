@@ -1,3 +1,4 @@
+import os
 from threading import Thread
 
 from kombu import Connection, Exchange
@@ -47,14 +48,12 @@ class Comm:
         producer.publish(data)
 
 
-def workload_comm():
-    return Comm("amqp://localhost:5672")
-
-
 def local_comm():
-    return Comm("amqp://10.0.8.88:5672")
+    comm_password = os.environ.get("GLOBAL_COMM_PASSWORD")
+    return Comm(f"amqp://agent:{comm_password}@10.0.8.88:5672")
 
 
-# TODO
-# def global_comm():
-#     return Comm("amqp://10.0.8.88:5672")
+def global_comm():
+    comm_password = os.environ.get("GLOBAL_COMM_PASSWORD")
+    comm_ip = os.environ.get("GLOBAL_COMM_IP")
+    return Comm(f"amqp://agent:{comm_password}@{comm_ip}:5672")
