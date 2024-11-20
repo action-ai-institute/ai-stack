@@ -20,6 +20,7 @@ setup(
         "neo4j ~= 5.0",
         "kombu ~= 5.0",
         "openai ~= 1.54",
+        "mattermostdriver ~= 7.3"
     ],
     url="https://github.com/action-ai-institute/ai-stack",
     project_urls={
