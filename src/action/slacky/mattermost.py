@@ -133,7 +133,7 @@ class Organization:
                 b = bot
                 break
         if b is None:
-            self.create_bot(name)
+            b = self.create_bot(name)
 
         if not self.is_bot_in_team(b["user_id"]):
             self.add_bot_to_team(b["user_id"])
