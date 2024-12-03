@@ -1,0 +1,13 @@
+model_list:
+  - model_name: gpt-4o-mini
+    litellm_params:
+      model: openai/gpt-4o-mini
+      api_key: {{ OPENAI_API_KEY }}
+
+  - model_name: "*"
+    litellm_params:
+      model: "*"
+      api_key: {{ OPENAI_API_KEY }}
+
+general_settings:
+  allow_requests_on_db_unavailable: true

@@ -1,0 +1,14 @@
+services:
+  neo4j:
+    image: neo4j:latest
+    volumes:
+        - {{deployment_path}}/neo4j/logs:/logs
+        - {{deployment_path}}/neo4j/config:/config
+        - {{deployment_path}}/neo4j/data:/data
+        - {{deployment_path}}/neo4j/plugins:/plugins
+    environment:
+        - NEO4J_AUTH=neo4j/{{ local_action_password }}
+    ports:
+      - "7474:7474"
+      - "7687:7687"
+    restart: always
