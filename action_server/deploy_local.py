@@ -1,3 +1,4 @@
+import time
 from jinja2 import Environment, FileSystemLoader
 import os, sys, subprocess, shutil
 
@@ -105,6 +106,23 @@ def clean():
     else:
         print("Deployment directory does not exist. Exiting.")
         exit()
+        
+        
+def setupMattermost():
+    dockerId = subprocess.run(["docker", "ps", "-q", "-f", "expose=8065"], stdout=subprocess.PIPE).stdout.decode("utf-8").strip()
+    def statusQuery():
+        res = subprocess.run(["docker", "exec", "-it", dockerId, "mmctl", "system", "status", "--local"], stdout=subprocess.PIPE)
+        return res.returncode
+    count = 0
+    while statusQuery() != 0 :
+        print("Waiting for Mattermost to start...")
+        count += 1
+        time.sleep(5)
+        if count > 30:
+            print("Mattermost did not start in time. Exiting.")
+            exit()
+    mmctl = ["mmctl", "--local", "user", "create", "--email", "admin@action.server", "--username", "admin", "--password", ACTION_SERVER_PASSWORD, "--system_admin"]
+    subprocess.run(["docker", "exec", "-it", dockerId] + mmctl, cwd=DEPLOYMENT_PATH)
 
 
 def main():
@@ -117,6 +135,7 @@ def main():
         exit()
     if sys.argv[1] == "up":
         up()
+        setupMattermost()
     elif sys.argv[1] == "down":
         down()
     elif sys.argv[1] == "init":

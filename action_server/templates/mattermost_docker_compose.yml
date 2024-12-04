@@ -58,6 +58,7 @@ services:
 
       # additional settings
       - MM_SERVICESETTINGS_SITEURL
+      - MMCTL_LOCAL_SOCKET_PATH=/var/tmp/mattermost/mattermost_local.socket
 
     ports:
       - ${APP_PORT}:8065
