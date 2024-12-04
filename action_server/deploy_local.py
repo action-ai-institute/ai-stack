@@ -2,7 +2,7 @@ from jinja2 import Environment, FileSystemLoader
 import os, sys, subprocess, shutil
 
 ACTION_SERVER_PASSWORD = "f9sdhtg97ht4938hgf9d7sgh"
-OPENAI_API_KEY = "sk-123"
+OPENAI_API_KEY = "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"
 DEPLOYMENT_PATH = os.getcwd() + "/deployment"
 
 # If the deployment directory does not exist, create it
@@ -19,6 +19,7 @@ compose_files = [
     "litellm_docker_compose.yml",
     "mattermost_docker_compose.yml",
     "neo4j_docker_compose.yml",
+    "rabbitmq_docker_compose.yml",
 ]
 
 data = {
