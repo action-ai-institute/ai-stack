@@ -1,26 +1,23 @@
 from mattermostdriver import Driver
 import os
 
-def local_mattermost(organization):
+def local_mattermost():
     return Mattermost(
-        organization=organization,
         server=os.environ.get("LOCAL_ACTION_SERVER"),
         password=os.environ.get("LOCAL_ACTION_PASSWORD"),
     )
 
-def global_mattermost(organization):
+def global_mattermost():
     return Mattermost(
-        organization=organization,
         server=os.environ.get("GLOBAL_ACTION_SERVER"),
         password=os.environ.get("GLOBAL_ACTION_PASSWORD"),
     )
 
 class Mattermost:
-    def __init__(self, organization=None, server=None, password=None):
+    def __init__(self, server=None, password=None):
         self.password = password
         self.server = server
         self.driver = None
-        self.organization = organization
         self.login()
 
     def login(self):
