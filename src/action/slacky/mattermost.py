@@ -1,5 +1,6 @@
 from mattermostdriver import Driver
 import os
+import asyncio
 
 def local_mattermost():
     return Mattermost(
@@ -191,4 +192,6 @@ class Bot:
         return True
 
     def on_message(self, callback):
+        loop = asyncio.new_event_loop()
+        asyncio.set_event_loop(loop)
         self.driver.init_websocket(callback)
