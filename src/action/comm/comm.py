@@ -49,8 +49,9 @@ class Comm:
 
 
 def local_comm():
-    comm_password = os.environ.get("GLOBAL_COMM_PASSWORD")
-    return Comm(f"amqp://agent:{comm_password}@10.0.8.88:5672")
+    comm_password = os.environ.get("LOCAL_ACTION_PASSWORD")
+    comm_ip = os.environ.get("LOCAL_ACTION_SERVER")
+    return Comm(f"amqp://agent:{comm_password}@{comm_ip}:5672")
 
 
 def global_comm():
