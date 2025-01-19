@@ -183,13 +183,21 @@ class Bot:
         return response
 
     def send_in_channel(self, channel_id, message):
-        self.driver.posts.create_post(
+        return self.driver.posts.create_post(
             {
                 "channel_id": channel_id,
                 "message": message,
             }
         )
-        return True
+
+    def reply_in_channel(self, channel_id, root_id, message):
+        return self.driver.posts.create_post(
+            {
+                "channel_id": channel_id,
+                "message": message,
+                "root_id": root_id,
+            }
+        )
 
     def on_message(self, callback):
         loop = asyncio.new_event_loop()
